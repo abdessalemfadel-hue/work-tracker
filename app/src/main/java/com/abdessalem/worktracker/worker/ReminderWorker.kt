@@ -2,7 +2,6 @@ package com.abdessalem.worktracker.worker
 
 import android.app.NotificationManager
 import android.content.Context
-import androidx.hilt.EntryPoints
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.abdessalem.worktracker.data.preferences.UserPreferences
@@ -10,6 +9,7 @@ import com.abdessalem.worktracker.data.repository.ShiftRepository
 import com.abdessalem.worktracker.domain.model.TimeUtils
 import com.abdessalem.worktracker.notification.NotificationFactory
 import dagger.hilt.EntryPoint
+import dagger.hilt.EntryPoints
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.first
