@@ -1,9 +1,13 @@
 package com.abdessalem.worktracker.service
 
+import android.Manifest
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.abdessalem.worktracker.data.preferences.UserPreferences
 import com.abdessalem.worktracker.data.repository.ShiftRepository
 import com.abdessalem.worktracker.notification.NotificationFactory
@@ -68,13 +72,19 @@ class ActiveShiftService : Service() {
                 }
                 val settings = preferences.settings.first()
                 val notification = notificationFactory.active(active, settings, System.currentTimeMillis())
-                NotificationManagerCompat.from(this@ActiveShiftService)
-                    .notify(NotificationFactory.ACTIVE_NOTIFICATION_ID, notification)
+                if (canPostNotifications()) {
+                    NotificationManagerCompat.from(this@ActiveShiftService)
+                        .notify(NotificationFactory.ACTIVE_NOTIFICATION_ID, notification)
+                }
                 WorkTrackerWidget.updateAll(applicationContext)
                 delay(30_000L)
             }
         }
     }
+
+    private fun canPostNotifications(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
 
     private fun broadcastState() {
         sendBroadcast(Intent(ACTION_STATE_CHANGED).setPackage(packageName))
