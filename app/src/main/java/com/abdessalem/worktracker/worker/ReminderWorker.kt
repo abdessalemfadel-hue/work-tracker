@@ -1,7 +1,11 @@
 package com.abdessalem.worktracker.worker
 
+import android.Manifest
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.abdessalem.worktracker.data.preferences.UserPreferences
@@ -26,7 +30,7 @@ class ReminderWorker(appContext: Context, params: WorkerParameters) : CoroutineW
     override suspend fun doWork(): Result {
         val entry = EntryPoints.get(applicationContext, ReminderWorkerEntryPoint::class.java)
         val settings = entry.preferences().settings.first()
-        if (!settings.remindersEnabled || !settings.notificationEnabled) return Result.success()
+        if (!settings.remindersEnabled || !settings.notificationEnabled || !canPostNotifications()) return Result.success()
         val active = entry.repository().getActive() ?: return Result.success()
         val net = TimeUtils.netMillis(active)
         val target = (settings.scheduledHoursPerDay * 3_600_000.0).toLong()
@@ -41,4 +45,8 @@ class ReminderWorker(appContext: Context, params: WorkerParameters) : CoroutineW
         }
         return Result.success()
     }
+
+    private fun canPostNotifications(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
 }
