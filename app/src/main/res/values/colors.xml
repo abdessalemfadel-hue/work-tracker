@@ -1,0 +1,10 @@
+<resources>
+    <color name="background">#08111F</color>
+    <color name="surface">#101C2D</color>
+    <color name="surface_alt">#16243A</color>
+    <color name="text_primary">#F5F8FC</color>
+    <color name="text_secondary">#9EABC0</color>
+    <color name="green">#4ED27A</color>
+    <color name="orange">#FFB02E</color>
+    <color name="red">#FF625F</color>
+</resources>
