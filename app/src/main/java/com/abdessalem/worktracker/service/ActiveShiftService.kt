@@ -1,6 +1,7 @@
 package com.abdessalem.worktracker.service
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -58,6 +59,7 @@ class ActiveShiftService : Service() {
         return START_STICKY
     }
 
+    @SuppressLint("MissingPermission")
     private fun startRefreshLoop() {
         if (refreshJob?.isActive == true) return
         refreshJob = scope.launch {
