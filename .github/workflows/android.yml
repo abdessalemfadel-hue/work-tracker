@@ -61,6 +61,9 @@ jobs:
             unit-test.log
             lint.log
             assemble.log
+            app/build/intermediates/lint_intermediate_text_report/**/lint-results-debug.txt
+            app/build/reports/lint-results-debug.html
+            app/build/reports/lint-results-debug.xml
           if-no-files-found: warn
 
       - name: Upload APK
