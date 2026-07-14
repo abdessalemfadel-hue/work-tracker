@@ -35,13 +35,33 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Unit tests
-        run: ./gradlew --no-daemon testDebugUnitTest
+        shell: bash
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon testDebugUnitTest 2>&1 | tee unit-test.log
 
       - name: Android lint
-        run: ./gradlew --no-daemon lintDebug
+        shell: bash
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon lintDebug 2>&1 | tee lint.log
 
       - name: Build debug APK
-        run: ./gradlew --no-daemon assembleDebug
+        shell: bash
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon assembleDebug 2>&1 | tee assemble.log
+
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: WorkTracker-build-logs
+          path: |
+            unit-test.log
+            lint.log
+            assemble.log
+          if-no-files-found: warn
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
