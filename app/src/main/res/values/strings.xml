@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Work Tracker</string>
+    <string name="quick_tile_label">Work Tracker</string>
+    <string name="active_shift_channel_name">Active shift</string>
+    <string name="active_shift_channel_description">Live work timer and quick shift controls</string>
+</resources>

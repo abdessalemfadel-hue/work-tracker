@@ -1,1 +1,1 @@
-# No custom ProGuard rules are required for this app.
+# Work Tracker currently ships without minification.

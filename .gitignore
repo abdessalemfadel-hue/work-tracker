@@ -1,7 +1,11 @@
-.gradle/
-.idea/
-local.properties
-**/build/
 *.iml
-*.jks
-*.keystore
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+**/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+.gradle-bootstrap/
